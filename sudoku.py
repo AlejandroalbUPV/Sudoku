@@ -1,3 +1,5 @@
+import random
+import copy
 board = [
     [7,8,0,4,0,0,1,2,0],
     [6,0,0,0,7,5,0,0,9],
@@ -9,6 +11,19 @@ board = [
     [1,2,0,0,0,7,4,0,0],
     [0,4,9,2,0,6,0,0,7]
 ]
+
+board_nueva = [
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,6,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0]
+]
+
 def solve(bo):
 
     find = find_empty(bo)
@@ -70,3 +85,26 @@ def find_empty(bo):
 
 
 
+def crear_board_aleatoria():
+    eleciones = list(range(1,10))
+    contador = 0
+    while contador <= 17:
+
+        fila = random.randint(0, 8)
+        col = random.randint(0, 8)
+        num = random.choice(eleciones)
+
+        if board_nueva[fila][col] == 0 and valid(board_nueva, num, (fila, col)):
+            board_nueva[fila][col] = num
+            contador += 1
+
+
+crear_board_aleatoria()
+print_board(board_nueva)
+
+
+# Crear una copia de board_nueva
+board_a_resolver = copy.deepcopy(board_nueva)
+solve(board_a_resolver)
+print("_______________")
+print_board(board_a_resolver)
