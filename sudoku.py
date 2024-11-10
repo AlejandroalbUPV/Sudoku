@@ -97,14 +97,5 @@ def crear_board_aleatoria():
         if board_nueva[fila][col] == 0 and valid(board_nueva, num, (fila, col)):
             board_nueva[fila][col] = num
             contador += 1
+    return board_nueva
 
-
-crear_board_aleatoria()
-print_board(board_nueva)
-
-
-# Crear una copia de board_nueva
-board_a_resolver = copy.deepcopy(board_nueva)
-solve(board_a_resolver)
-print("_______________")
-print_board(board_a_resolver)
