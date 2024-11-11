@@ -20,7 +20,7 @@ seleccion = (255, 0, 0)
 
 def main():
     celda_seleccionada = None
-    valor = None
+    valor = ""
     running = True
     sudoku.crear_board_aleatoria()
     while running:
@@ -39,11 +39,13 @@ def main():
                 col = y // tamañoBloque
                 print(col)
                 celda_seleccionada = (fila, col)
-
+                valor = ""
             if event.type == pygame.KEYDOWN:
                 valor = int(chr(event.key))
                 print(f"Tecla presionada: {valor}")
 
+
+           
 
         Interfaz.resaltar_celda(celda_seleccionada,screen,seleccion,tamañoBloque)
         Interfaz.modificar_celda(celda_seleccionada,valor,screen,fuente,tamañoBloque)
