@@ -1,59 +1,89 @@
 import pygame
 import Interfaz
 from pygame import Color
-
-import sudoku
-
-from sudoku import print_board, board_nueva
+from sudoku import tablero_juego, resolver_sudoku, imprimir_tablero, tablero
 
 pygame.init()
-width = 540  # ancho pantalla
-height = 540  # alto pantalla
 
+# Configuración de la pantalla
+width, height = 540, 540
 tamañoBloque = 60
-
-pygame.display.set_caption("Sudoku")
 screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Sudoku")
+
+# Fuente y reloj
 fuente = pygame.font.Font(None, 36)
 clock = pygame.time.Clock()
+
+# Color de selección
 seleccion = (255, 0, 0)
+
 
 def main():
     celda_seleccionada = None
-    valor = None
+    valor = ""
     running = True
-    sudoku.crear_board_aleatoria()
+    inicio = True  # Indicador de la pantalla de inicio
+
+    # Inicialización del tablero
+    tablero()
+
     while running:
-        screen.fill("white")
-        Interfaz.dibujar_grid(screen,width,height,fuente,tamañoBloque)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
+        if inicio:
+            # Pantalla de inicio
+            Interfaz.mostrar_pantalla_inicio(screen, fuente)
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    inicio = False  # Comienza el juego al presionar Enter
+        else:
+            # Rellenar la pantalla con el color blanco
+            screen.fill("white")
 
-                y, x = event.pos #Vienen inveritos, col y filas
-                fila = x // tamañoBloque
-                print("X:")
-                print(fila)
-                print("Y:")
-                col = y // tamañoBloque
-                print(col)
-                celda_seleccionada = (fila, col)
+            # Dibujar la cuadrícula y los números del tablero
+            Interfaz.dibujar_grid(screen, width, height, fuente, tamañoBloque, tablero_juego)
 
-            if event.type == pygame.KEYDOWN:
-                valor = int(chr(event.key))
-                print(f"Tecla presionada: {valor}")
+            # Manejo de eventos
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    y, x = event.pos  # Las coordenadas se invierten
+                    fila = x // tamañoBloque
+                    col = y // tamañoBloque
+                    celda_seleccionada = (fila, col)
+                    valor = ""
+                if event.type == pygame.KEYDOWN:
+                    # Asegúrate de que el valor presionado es un número entre 1 y 9
+                    if event.key in range(pygame.K_1, pygame.K_9 + 1):
+                        valor = event.key - pygame.K_0
+                        print(f"Tecla presionada: {valor}")
 
+                    # Si presionas 'R', puedes mostrar un popup para reiniciar
+                    if event.key == pygame.K_r:
+                        Interfaz.mostrar_popup(screen, fuente)
 
-        Interfaz.resaltar_celda(celda_seleccionada,screen,seleccion,tamañoBloque)
-        Interfaz.modificar_celda(celda_seleccionada,valor,screen,fuente,tamañoBloque)
+            # Resaltar la celda seleccionada y modificarla si es necesario
+            Interfaz.resaltar_celda(celda_seleccionada, screen, seleccion, tamañoBloque)
+            Interfaz.modificar_celda(celda_seleccionada, valor, screen, fuente, tamañoBloque, tablero_juego)
 
-        pygame.display.flip()
+            # Actualizar la pantalla
+            pygame.display.flip()
 
+        # Limitar la velocidad del juego
         clock.tick(60)
 
     pygame.quit()
-    sudoku.solve(board_nueva)
-    print_board(board_nueva)
 
-main()
+    # Resolver el Sudoku al final del juego
+    resolver_sudoku(tablero_juego)
+    imprimir_tablero(tablero_juego)
+
+
+# Ejecutar el juego
+if __name__ == "__main__":
+    main()
+
+
