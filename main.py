@@ -42,6 +42,7 @@ def main():
             # Rellenar la pantalla con el color blanco
             screen.fill("white")
 
+<<<<<<< HEAD
             # Dibujar la cuadrícula y los números del tablero
             Interfaz.dibujar_grid(screen, width, height, fuente, tamañoBloque, tablero_juego)
 
@@ -60,14 +61,35 @@ def main():
                     if event.key in range(pygame.K_1, pygame.K_9 + 1):
                         valor = event.key - pygame.K_0
                         print(f"Tecla presionada: {valor}")
+=======
+                y, x = event.pos #Vienen inveritos, col y filas
+                fila = x // tamañoBloque
+                print("X:")
+                print(fila)
+                print("Y:")
+                col = y // tamañoBloque
+                print(col)
+                celda_seleccionada = (fila, col)
+                valor = ""
+            if event.type == pygame.KEYDOWN:
+                valor = int(chr(event.key))
+                print(f"Tecla presionada: {valor}")
+>>>>>>> 74c5a5faa78a233ef19ad2b53f65476dbdf3ea9a
 
                     # Si presionas 'R', puedes mostrar un popup para reiniciar
                     if event.key == pygame.K_r:
                         Interfaz.mostrar_popup(screen, fuente)
 
+<<<<<<< HEAD
             # Resaltar la celda seleccionada y modificarla si es necesario
             Interfaz.resaltar_celda(celda_seleccionada, screen, seleccion, tamañoBloque)
             Interfaz.modificar_celda(celda_seleccionada, valor, screen, fuente, tamañoBloque, tablero_juego)
+=======
+           
+
+        Interfaz.resaltar_celda(celda_seleccionada,screen,seleccion,tamañoBloque)
+        Interfaz.modificar_celda(celda_seleccionada,valor,screen,fuente,tamañoBloque)
+>>>>>>> 74c5a5faa78a233ef19ad2b53f65476dbdf3ea9a
 
             # Actualizar la pantalla
             pygame.display.flip()
