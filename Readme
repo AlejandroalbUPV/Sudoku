@@ -1,1 +1,9 @@
 Primer proyecto en mi gitlab
+
+Actualmente la logica del generado de sudoku esta mejor diseñada pero todavia da problemas el metodo de eliminar cuadrados, tengo que revisarlo. A partir de 55 celdas
+eliminadas le cuesta un poco en terminos de eficiencia o incluso no encuentra más formas de llegar al maximo posible teorico que son 64, 81-17 = 64 celdas eliminadas
+17 visibles para hacer el sudoku.
+
+He creador una clase boton, donde la idea es crear una pantalla con 3 dificultades, eliminara x cuadrados dependiendo de la dificultad.
+
+Esta pendiente mejorar un poco el tema de diseño.

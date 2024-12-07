@@ -1,7 +1,31 @@
+from imghdr import test_pbm
+
 import pygame
+
 import sudoku
 
+class Boton:
+    def __init__(self,x,y,ancho,alto,color, text, text_color,fuente,tamaño=30):
+        self.fuente = fuente
+        self.rect = pygame.Rect(x,y,ancho,alto)
+        self.color = color
+        self.text = text
+        self.text_color = text_color
+        self.tamaño= pygame.font.Font(None,tamaño)
+        self.superficie_texto = self.fuente.render(text,True,text_color)
 
+    def dibujar (self,screen):
+        pygame.draw.rect(screen,self.color,self.rect)
+
+        texto_Rect= self.superficie_texto.get_rect(center=self.rect.center)
+        screen.blit(self.superficie_texto,texto_Rect)
+
+    def es_clickeado(self,event):
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                return self.rect.collidepoint(event.pos)
+        return False
 def reiniciar_juego():
     pass
 
@@ -22,6 +46,10 @@ def mostrar_pantalla_inicio(screen, fuente):
     screen.fill((255, 255, 255))
     texto = fuente.render("Pulsa Enter para Jugar", True, (0, 0, 0))
     screen.blit(texto, (50, 250))
+
+def mostras_pantalla_dificultad(screen,fuente):
+    screen.fill((255,255,255))
+    texto = fuente.render("")
 
 def dibujar_grid(screen, width, height, fuente, tamañoBloque,tablero_juego):
     # Dibujar líneas horizontales y verticales para la cuadrícula

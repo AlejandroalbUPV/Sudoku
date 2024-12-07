@@ -1,10 +1,14 @@
 import pygame
 import Interfaz
 from pygame import Color
+
+from Interfaz import Boton
 from sudoku import tablero_juego, resolver_sudoku, imprimir_tablero, tablero
 
 pygame.init()
-
+#Colores
+Azul =(0,0,255)
+Blanco = (255,255,255)
 # Configuración de la pantalla
 width, height = 540, 540
 tamañoBloque = 60
@@ -19,11 +23,14 @@ clock = pygame.time.Clock()
 seleccion = (255, 0, 0)
 
 
+boton = Boton(300,250,200,50,Azul,"Facil",Blanco,fuente)
+
 def main():
     celda_seleccionada = None
     valor = ""
     running = True
     inicio = True  # Indicador de la pantalla de inicio
+    dificultad = False
 
     # Inicialización del tablero
     tablero()
@@ -38,11 +45,22 @@ def main():
                     running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                     inicio = False  # Comienza el juego al presionar Enter
+                    dificultad = True
+
+        elif dificultad:
+            screen.fill(Blanco)
+            boton.dibujar(screen)
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                if boton.es_clickeado(event):
+                    print("Hola")
+                    dificultad = False
         else:
             # Rellenar la pantalla con el color blanco
             screen.fill("white")
 
-<<<<<<< HEAD
             # Dibujar la cuadrícula y los números del tablero
             Interfaz.dibujar_grid(screen, width, height, fuente, tamañoBloque, tablero_juego)
 
@@ -61,35 +79,14 @@ def main():
                     if event.key in range(pygame.K_1, pygame.K_9 + 1):
                         valor = event.key - pygame.K_0
                         print(f"Tecla presionada: {valor}")
-=======
-                y, x = event.pos #Vienen inveritos, col y filas
-                fila = x // tamañoBloque
-                print("X:")
-                print(fila)
-                print("Y:")
-                col = y // tamañoBloque
-                print(col)
-                celda_seleccionada = (fila, col)
-                valor = ""
-            if event.type == pygame.KEYDOWN:
-                valor = int(chr(event.key))
-                print(f"Tecla presionada: {valor}")
->>>>>>> 74c5a5faa78a233ef19ad2b53f65476dbdf3ea9a
 
                     # Si presionas 'R', puedes mostrar un popup para reiniciar
                     if event.key == pygame.K_r:
                         Interfaz.mostrar_popup(screen, fuente)
 
-<<<<<<< HEAD
             # Resaltar la celda seleccionada y modificarla si es necesario
             Interfaz.resaltar_celda(celda_seleccionada, screen, seleccion, tamañoBloque)
             Interfaz.modificar_celda(celda_seleccionada, valor, screen, fuente, tamañoBloque, tablero_juego)
-=======
-           
-
-        Interfaz.resaltar_celda(celda_seleccionada,screen,seleccion,tamañoBloque)
-        Interfaz.modificar_celda(celda_seleccionada,valor,screen,fuente,tamañoBloque)
->>>>>>> 74c5a5faa78a233ef19ad2b53f65476dbdf3ea9a
 
             # Actualizar la pantalla
             pygame.display.flip()
@@ -101,6 +98,7 @@ def main():
 
     # Resolver el Sudoku al final del juego
     resolver_sudoku(tablero_juego)
+    print("\n")
     imprimir_tablero(tablero_juego)
 
 
